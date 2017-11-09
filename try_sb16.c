@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* Use it to avoid the warnings about unused variables */
+#define UNUSED(x) x = x
+
 /* delay() in TurboC works with milliseconds */
 #define mdelay(ms) delay(ms)
 
@@ -34,7 +37,7 @@
 #define BITMASK_DMA7  0x80
 
 static int base_addr_list [] = { 0x220, 0x240, 0x260, 0x280 };
-
+/*
 static int dsp_write(int base_addr, int value)
 {
   int i;
@@ -53,7 +56,7 @@ static int dsp_write(int base_addr, int value)
 
   return EXIT_FAILURE;
 }
-
+*/
 static int dsp_read(int base_addr, int* p_value)
 {
   int i;
@@ -332,13 +335,16 @@ static int check_base_addr(int base_addr)
   return EXIT_FAILURE;
 }
 
-int main(int argc, char* argv[])
+int main(int argc, char* argv[], char* env[])
 {
   int ret_value = EXIT_SUCCESS;
   int base_addr = 0x00;
   int irq_num   = 0x00;
   int dma8_num  = 0x00;
   int dma16_num = 0x00;
+
+  /* TODO: Get parameters from BLASTER env. variable */
+  UNUSED(env);
 
   if (argc < 4)
   {
